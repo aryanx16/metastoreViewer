@@ -9,7 +9,7 @@ import { useTableMetadata } from "@/hooks/useTableMetadata";
 import { UserContext } from "@/App";
 import { useContext } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { TableMetadata } from "@/shared/schema";
+import { TableMetadata } from '@shared/schema';
 
 // Define the possible tab values
 type TabValue = "overview" | "schema" | "partitions" | "versions" | "properties" | "sample-data";
