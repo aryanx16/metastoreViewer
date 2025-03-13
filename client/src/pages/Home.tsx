@@ -31,10 +31,11 @@ export default function Home() {
   const { userId } = useContext(UserContext);
   const { toast } = useToast();
 
-  // Fetch table metadata
+  // Fetch table metadata with userId for recent table tracking
   const { data: tableMetadata, isLoading, isError, error } = useTableMetadata(
     path ? path : null,
-    undefined
+    undefined,
+    userId
   );
 
   // Handle fetch button click
