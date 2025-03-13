@@ -5,6 +5,7 @@ import RowCountCard from './summary-cards/RowCountCard';
 import StorageSizeCard from './summary-cards/StorageSizeCard';
 import VersionCard from './summary-cards/VersionCard';
 import SchemaViewer from './table-viewers/SchemaViewer';
+import SchemaHistoryViewer from './table-viewers/SchemaHistoryViewer';
 import PartitionViewer from './table-viewers/PartitionViewer';
 import VersionViewer from './table-viewers/VersionViewer';
 import PropertiesViewer from './table-viewers/PropertiesViewer';
@@ -40,6 +41,39 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
         {/* Schema Section */}
         <SchemaViewer metadata={metadata} isPreview={true} />
         
+        {/* Schema History Preview (if versions exist) */}
+        {metadata.versions && metadata.versions.length > 0 && (
+          <div className="mb-6">
+            <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
+              <div className="flex justify-between items-center mb-3">
+                <h2 className="text-base font-medium">Schema History</h2>
+                <a 
+                  className="text-sm text-primary flex items-center" 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const tabNav = document.querySelector('button[data-value="schema-history"]');
+                    if (tabNav) (tabNav as HTMLButtonElement).click();
+                  }}
+                >
+                  <i className="ri-history-line mr-1"></i>
+                  View Full History
+                </a>
+              </div>
+              
+              <div className="text-sm text-neutral-600">
+                <p>This table has {metadata.versions.length} recorded schema changes.</p>
+                <p className="mt-1">Last updated: {metadata.versions[0]?.timestamp 
+                  ? new Date(metadata.versions[0].timestamp).toLocaleDateString('en-US', {
+                      year: 'numeric', month: 'short', day: 'numeric'
+                    })
+                  : 'Unknown'}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+        
         {/* Version History Preview */}
         <VersionViewer metadata={metadata} isPreview={true} />
         
@@ -55,6 +89,11 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
   // Schema tab
   if (activeTab === 'schema') {
     return <SchemaViewer metadata={metadata} />;
+  }
+  
+  // Schema History tab
+  if (activeTab === 'schema-history') {
+    return <SchemaHistoryViewer metadata={metadata} />;
   }
   
   // Partitions tab

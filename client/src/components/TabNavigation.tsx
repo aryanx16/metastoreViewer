@@ -9,6 +9,7 @@ export default function TabNavigation({ activeTab, onChange }: TabNavigationProp
   const tabs = [
     { id: 'overview', label: 'Overview' },
     { id: 'schema', label: 'Schema' },
+    { id: 'schema-history', label: 'Schema History' },
     { id: 'partitions', label: 'Partitions' },
     { id: 'versions', label: 'Versions' },
     { id: 'properties', label: 'Properties' },
@@ -20,6 +21,7 @@ export default function TabNavigation({ activeTab, onChange }: TabNavigationProp
       {tabs.map((tab) => (
         <button 
           key={tab.id}
+          data-value={tab.id}
           className={`px-4 py-3 text-sm font-medium ${
             activeTab === tab.id 
               ? 'text-primary border-b-2 border-primary' 
