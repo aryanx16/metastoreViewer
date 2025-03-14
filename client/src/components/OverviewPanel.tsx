@@ -1,6 +1,7 @@
-import { formatBytes, formatLargeNumber } from '@/lib/formatUtils';
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
-import { timeAgo } from '@/lib/timeUtils';
+
+import { TableMetadata } from '@shared/schema';
+import { formatLargeNumber } from '@/lib/formatUtils';
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 interface OverviewPanelProps {
   metadata: TableMetadata;
@@ -11,12 +12,12 @@ export default function OverviewPanel({ metadata }: OverviewPanelProps) {
   const snapshotData = Array.from({ length: 10 }, (_, i) => ({
     snapshot: 1000 + i * 1000,
     files: Math.floor(10 + (i * 0.8)),
-    records: Math.floor(600000 + (i * 100000))
+    records: Math.floor(1800000 + (i * 100000))
   }));
 
   return (
-    <div>
-      {/* Overview Data */}
+    <div className="space-y-4">
+      {/* Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white p-4 rounded-lg shadow-sm border border-neutral-200">
           <h3 className="text-sm font-medium mb-4">Total Files</h3>
@@ -29,10 +30,10 @@ export default function OverviewPanel({ metadata }: OverviewPanelProps) {
       </div>
 
       {/* Snapshot Graphs */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white p-4 rounded-lg shadow-sm border border-neutral-200">
           <h3 className="text-sm font-medium mb-4">Snapshot Total Files</h3>
-          <div style={{ height: 200 }}>
+          <div style={{ height: 280 }}>
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={snapshotData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
@@ -61,7 +62,7 @@ export default function OverviewPanel({ metadata }: OverviewPanelProps) {
 
         <div className="bg-white p-4 rounded-lg shadow-sm border border-neutral-200">
           <h3 className="text-sm font-medium mb-4">Snapshot Total Records</h3>
-          <div style={{ height: 200 }}>
+          <div style={{ height: 280 }}>
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={snapshotData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
