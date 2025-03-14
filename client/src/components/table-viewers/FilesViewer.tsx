@@ -64,22 +64,22 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <div className="text-xl font-bold  text-black">Total Files</div>
           <div className="text-2xl font-semibold font-mono text-black mt-1">{fileAnalysis.totalFiles}</div>
-          <div className="text-xs text-gray-500 mt-1">Number of data files</div>
+          <div className="text-sm text-gray-500 font-semibold mt-1">Number of data files</div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <div className="text-xl font-bold  text-black">Total Records</div>
           <div className="text-2xl font-mono font-semibold text-gray-900 mt-1">{fileAnalysis.totalRecords.toLocaleString()}</div>
-          <div className="text-xs text-gray-500 mt-1">Across all files</div>
+          <div className="text-sm text-gray-500 font-semibold mt-1">Across all files</div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <div className="text-xl font-bold  text-black">Avg Records/File</div>
           <div className="text-2xl font-mono font-semibold text-gray-900 mt-1">{fileAnalysis.avgRecordsPerFile.toLocaleString()}</div>
-          <div className="text-xs text-gray-500 mt-1">Average records per file</div>
+          <div className="text-sm text-gray-500 font-semibold mt-1">Average records per file</div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <div className="text-xl font-bold  text-black">Avg File Size</div>
           <div className="text-2xl font-mono font-semibold text-gray-900 mt-1">{fileAnalysis.avgFileSize}</div>
-          <div className="text-xs text-gray-500 mt-1">Average size in MB</div>
+          <div className="text-sm text-gray-500 font-semibold mt-1">Average size in MB</div>
         </div>
       </div>
 
@@ -88,7 +88,7 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
             <div className="text-xl font-bold  text-black mb-2">File Size Distribution</div>
-            <div className="text-xs text-gray-500 mb-4">Distribution of files by size ranges</div>
+            <div className="text-sm text-gray-500 font-semibold mb-4">Distribution of files by size ranges</div>
             <div style={{ height: '240px' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={fileAnalysis.distributions.fileSize}>
@@ -104,7 +104,7 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
             <div className="text-xl font-bold  text-black mb-2">Record Count Distribution</div>
-            <div className="text-xs text-gray-500 mb-4">Distribution of files by record count ranges</div>
+            <div className="text-sm text-gray-500 font-semibold mb-4">Distribution of files by record count ranges</div>
             <div style={{ height: '240px' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={fileAnalysis.distributions.recordCount}>
@@ -124,7 +124,7 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <div className="text-xl font-bold  text-black mb-2">File Type Distribution</div>
-          <div className="text-xs text-gray-500 mb-4">Distribution of files by file format</div>
+          <div className="text-sm text-gray-500 font-semibold mb-4">Distribution of files by file format</div>
           <div style={{ height: '240px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -149,7 +149,7 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
         </div>
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <div className="text-xl font-bold  text-black mb-2">File Metrics Summary</div>
-          <div className="text-xs text-gray-500 mb-4">Min, max, and average values</div>
+          <div className="text-sm text-gray-500 font-semibold mb-4">Min, max, and average values</div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-4">
               <div>
