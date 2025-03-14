@@ -11,32 +11,43 @@ interface FilesViewerProps {
 export default function FilesViewer({ metadata }: FilesViewerProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const fileAnalysis = {
+  const fileAnalysis = React.useMemo(() => ({
     totalFiles: metadata.fileCount || 0,
     totalRecords: metadata.rowCount || 0,
     avgRecordsPerFile: metadata.fileCount ? Math.round((metadata.rowCount || 0) / metadata.fileCount) : 0,
-    avgFileSize: `${(metadata.size / (1024 * 1024 * metadata.fileCount)).toFixed(2)} MB`,
+    avgFileSize: `${((metadata.size || 0) / (1024 * 1024 * (metadata.fileCount || 1))).toFixed(2)} MB`,
     distributions: {
-      fileSize: [
-        { range: "0-1 MB", files: 40, percentage: 30 },
-        { range: "1-5 MB", files: 70, percentage: 45 },
-        { range: "5-10 MB", files: 35, percentage: 25 },
-        { range: "10-20 MB", files: 15, percentage: 10 },
-        { range: "20+ MB", files: 5, percentage: 5 }
+      fileSize: metadata.fileSizeDistribution || [
+        { range: "0-1 MB", files: 0, percentage: 0 },
+        { range: "1-5 MB", files: 0, percentage: 0 },
+        { range: "5-10 MB", files: 0, percentage: 0 },
+        { range: "10-20 MB", files: 0, percentage: 0 },
+        { range: "20+ MB", files: 0, percentage: 0 }
       ],
-      recordCount: [
-        { range: "0-1K", files: 20, percentage: 10 },
-        { range: "1K-10K", files: 45, percentage: 25 },
-        { range: "10K-50K", files: 60, percentage: 30 },
-        { range: "50K-100K", files: 70, percentage: 35 },
-        { range: "100K+", files: 40, percentage: 20 }
+      recordCount: metadata.recordCountDistribution || [
+        { range: "0-1K", files: 0, percentage: 0 },
+        { range: "1K-10K", files: 0, percentage: 0 },
+        { range: "10K-50K", files: 0, percentage: 0 },
+        { range: "50K-100K", files: 0, percentage: 0 },
+        { range: "100K+", files: 0, percentage: 0 }
       ],
-      fileTypes: [
-        { name: "parquet", value: 30 },
-        { name: "orc", value: 42 },
-        { name: "avro", value: 28 }
-      ]
+      fileTypes: metadata.fileTypeDistribution?.map(type => ({
+        name: type.format,
+        value: type.count
+      })) || []
     }
+  }), [metadata]);
+
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length > 0) {
+      return (
+        <div className="bg-white p-2 border border-gray-200 rounded-md shadow-sm">
+          <p className="text-sm font-semibold">{payload[0].name}</p>
+          <p className="text-sm text-gray-600">Count: {payload[0].value}</p>
+        </div>
+      );
+    }
+    return null;
   };
 
   const COLORS = ['#0088FE', '#FFB300', '#00C49F'];
@@ -141,7 +152,7 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip content={<CustomTooltip />} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
