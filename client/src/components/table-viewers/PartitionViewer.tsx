@@ -16,7 +16,7 @@ interface PartitionViewerProps {
 export default function PartitionViewer({ metadata, isPreview = false }: PartitionViewerProps) {
   const partitions = metadata.partitions || [];
   const [expandedPartitions, setExpandedPartitions] = useState<Record<string, boolean>>({});
-  
+
   // Toggle partition expansion
   const togglePartition = (partitionId: string) => {
     setExpandedPartitions(prev => ({
@@ -24,7 +24,7 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
       [partitionId]: !prev[partitionId]
     }));
   };
-  
+
   // If no partition data, show empty state
   if (!partitions.length) {
     return (
@@ -37,12 +37,12 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
       </div>
     );
   }
-  
+
   // Find partition keys from schema
   const partitionKeys = metadata.schema?.fields
     .filter(field => field.partitionKey)
     .map(field => field.name) || [];
-  
+
   // For preview mode, show a limited view
   if (isPreview) {
     return (
@@ -67,7 +67,7 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
               <p><span className="font-medium">Total Partitions:</span> {partitions.length}</p>
             </div>
           </div>
-          
+
           {/* Preview of partitions */}
           <div className="border border-neutral-200 rounded-md overflow-hidden">
             <div className="bg-neutral-50 p-2 border-b border-neutral-200 flex justify-between items-center">
@@ -92,11 +92,11 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
       </div>
     );
   }
-  
+
   // Process partition data for charts
   const [activeView, setActiveView] = useState<'tree' | 'visualization'>('tree');
   const [vizType, setVizType] = useState<'bar' | 'pie'>('bar');
-  
+
   // Convert partition data for visualization
   const chartData = useMemo(() => {
     return partitions
@@ -197,7 +197,7 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
             </div>
           </div>
         </div>
-        
+
         {activeView === 'tree' && (
           <div>
             <h3 className="text-sm font-medium mb-2">Partition Explorer</h3>
@@ -219,14 +219,14 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
                   Showing top partitions by size
                 </div>
               </div>
-              
+
               {/* Partition Tree View */}
               <div className="max-h-96 overflow-y-auto">
                 {partitions.map((partition) => {
                   const partitionId = `${partition.name}-${partition.value}`;
                   const isExpanded = expandedPartitions[partitionId];
                   const hasChildren = partition.children && partition.children.length > 0;
-                  
+
                   return (
                     <React.Fragment key={partitionId}>
                       <div 
@@ -273,7 +273,7 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
             </div>
           </div>
         )}
-        
+
         {activeView === 'visualization' && (
           <div>
             <div className="mb-3 flex justify-between items-center">
@@ -293,7 +293,7 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
                 </button>
               </div>
             </div>
-            
+
             {chartData.length === 0 ? (
               <div className="p-4 text-center text-neutral-500">
                 No size data available for visualization
@@ -303,43 +303,46 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
                 <div className="text-xs text-neutral-500 mb-2">
                   Showing top {chartData.length} partitions by size
                 </div>
-                
+
                 {vizType === 'bar' && (
                   <div className="h-96">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart
                         data={chartData}
                         layout="vertical"
-                        margin={{ top: 20, right: 30, left: 100, bottom: 10 }}
+                        margin={{ top: 20, right: 30, left: 120, bottom: 10 }}
                       >
                         <XAxis 
                           type="number" 
                           tickFormatter={(value) => formatBytes(value)}
-                          stroke="#888"
-                          fontSize={12}
+                          stroke="#64748b"
+                          fontSize={11}
+                          tickLine={false}
+                          axisLine={false}
                         />
                         <YAxis 
                           type="category" 
                           dataKey="name" 
-                          tick={{ fontSize: 11 }} 
-                          width={100}
-                          stroke="#888"
+                          tick={{ fontSize: 11, fill: '#64748b' }} 
+                          width={120}
+                          tickLine={false}
+                          axisLine={false}
                         />
-                        <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                         <Tooltip content={<CustomTooltip />} />
-                        <Legend />
+                        <Legend wrapperStyle={{ paddingTop: "10px" }} />
                         <Bar 
                           dataKey="size" 
                           name="Partition Size" 
-                          fill="#60A5FA"
+                          fill="#818cf8"
                           radius={[0, 4, 4, 0]}
-                          barSize={20}
+                          barSize={16}
                         />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
                 )}
-                
+
                 {vizType === 'pie' && (
                   <div className="h-96">
                     <ResponsiveContainer width="100%" height="100%">
@@ -348,26 +351,27 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
                           data={chartData}
                           cx="50%"
                           cy="50%"
-                          labelLine={true}
-                          innerRadius={60}
-                          outerRadius={120}
+                          labelLine={{ stroke: '#64748b', strokeWidth: 1 }}
+                          innerRadius={80}
+                          outerRadius={140}
                           fill="#8884d8"
                           dataKey="size"
                           nameKey="name"
-                          label={({ name, percent }) => `${(percent * 100).toFixed(1)}%`}
+                          label={({ percent }) => `${(percent * 100).toFixed(1)}%`}
+                          labelStyle={{ fill: '#64748b', fontSize: 12 }}
                         >
                           {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="#fff" strokeWidth={2} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value: any) => formatBytes(value)} />
-                        <Legend />
+                        <Tooltip formatter={(value: any) => formatBytes(value)} contentStyle={{ borderRadius: '6px', border: '1px solid #e2e8f0' }} />
+                        <Legend wrapperStyle={{ paddingTop: "20px" }} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
                 )}
-                
-                
+
+
               </div>
             )}
           </div>
