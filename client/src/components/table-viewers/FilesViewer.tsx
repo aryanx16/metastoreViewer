@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { TableMetadata } from '@shared/schema';
-import { ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 interface FilesViewerProps {
   metadata: TableMetadata;
