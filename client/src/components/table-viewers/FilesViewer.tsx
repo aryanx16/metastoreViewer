@@ -135,11 +135,14 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
                   cx="50%"
                   cy="50%"
                   outerRadius={80}
+                  label
                 >
                   {fileAnalysis.distributions.fileTypes.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
+                <Tooltip />
+                <Legend />
               </PieChart>
             </ResponsiveContainer>
           </div>
