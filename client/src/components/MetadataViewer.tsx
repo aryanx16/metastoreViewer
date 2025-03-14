@@ -96,13 +96,14 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
           </div>
         </div>
         
-        <div className="mb-6">
-          {/* Schema Section */}
-          <SchemaViewer metadata={metadata} isPreview={true} />
-        </div>
-        
-        {/* Schema History Preview (if versions exist) */}
-        {metadata.versions && metadata.versions.length > 0 && (
+        <div>
+          <div className="mb-6">
+            {/* Schema Section */}
+            <SchemaViewer metadata={metadata} isPreview={true} />
+          </div>
+          
+          {/* Schema History Preview (if versions exist) */}
+          {metadata.versions && metadata.versions.length > 0 && (
           <div className="mb-6">
             <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
               <div className="flex justify-between items-center mb-3">
