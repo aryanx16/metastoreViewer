@@ -163,18 +163,38 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
 
       <div className="p-4">
         {/* Partition Strategy Info */}
-        <div className="mb-4 p-3 bg-neutral-50 rounded-md">
-          <h3 className="text-sm font-medium mb-2">Partition Strategy</h3>
-          <div className="text-sm text-neutral-600">
-            <p><span className="font-medium">Fields:</span> {partitionKeys.join(', ') || 'None'}</p>
-            <p><span className="font-medium">Strategy:</span> {
-              metadata.format === 'iceberg' 
-                ? 'Identity hash partitioning' 
-                : metadata.format === 'hudi'
-                  ? 'Hudi partitioning'
-                  : 'Identity partitioning'
-            }</p>
-            <p><span className="font-medium">Total Partitions:</span> {partitions.length}</p>
+        <div className="mb-4">
+          <div className="p-3 bg-neutral-50 rounded-t-md border-b border-neutral-200">
+            <h3 className="text-sm font-medium">Partition Strategy</h3>
+          </div>
+          <div className="p-4 bg-white rounded-b-md border border-t-0 border-neutral-200">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="flex-1 p-3 bg-blue-50 rounded-md">
+                <p className="text-xs text-blue-600 font-medium mb-1">Fields</p>
+                <p className="text-sm">{partitionKeys.join(', ') || 'None'}</p>
+              </div>
+              <div className="flex-1 p-3 bg-green-50 rounded-md">
+                <p className="text-xs text-green-600 font-medium mb-1">Strategy</p>
+                <p className="text-sm">{
+                  metadata.format === 'iceberg' 
+                    ? 'Identity hash partitioning' 
+                    : metadata.format === 'hudi'
+                      ? 'Hudi partitioning'
+                      : 'Identity partitioning'
+                }</p>
+              </div>
+              <div className="flex-1 p-3 bg-purple-50 rounded-md">
+                <p className="text-xs text-purple-600 font-medium mb-1">Total Partitions</p>
+                <p className="text-sm font-medium">{partitions.length}</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {partitions.map((partition, i) => (
+                <div key={i} className="px-2 py-1 bg-neutral-100 rounded text-xs">
+                  {partition.name}={partition.value}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         
