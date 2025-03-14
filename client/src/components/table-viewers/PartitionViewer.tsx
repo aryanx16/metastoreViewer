@@ -3,7 +3,7 @@ import { TableMetadata, TablePartition } from '@shared/schema';
 import { formatBytes, formatLargeNumber } from '@/lib/formatUtils';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
-  PieChart, Pie, Cell, Sector, Treemap, CartesianGrid
+  PieChart, Pie, Cell, Sector, CartesianGrid
 } from 'recharts';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -95,7 +95,7 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
   
   // Process partition data for charts
   const [activeView, setActiveView] = useState<'tree' | 'visualization'>('tree');
-  const [vizType, setVizType] = useState<'bar' | 'pie' | 'treemap'>('bar');
+  const [vizType, setVizType] = useState<'bar' | 'pie'>('bar');
   
   // Convert partition data for visualization
   const chartData = useMemo(() => {
@@ -266,16 +266,10 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
                   Bar
                 </button>
                 <button 
-                  className={`px-3 py-1.5 text-xs border-l border-r border-neutral-200 ${vizType === 'pie' ? 'bg-blue-50 text-blue-600' : 'bg-white text-neutral-600 hover:bg-neutral-50'}`}
+                  className={`px-3 py-1.5 text-xs ${vizType === 'pie' ? 'bg-blue-50 text-blue-600' : 'bg-white text-neutral-600 hover:bg-neutral-50'}`}
                   onClick={() => setVizType('pie')}
                 >
                   Pie
-                </button>
-                <button 
-                  className={`px-3 py-1.5 text-xs ${vizType === 'treemap' ? 'bg-blue-50 text-blue-600' : 'bg-white text-neutral-600 hover:bg-neutral-50'}`}
-                  onClick={() => setVizType('treemap')}
-                >
-                  Treemap
                 </button>
               </div>
             </div>
@@ -353,64 +347,7 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
                   </div>
                 )}
                 
-                {vizType === 'treemap' && (
-                  <div className="h-96">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <Treemap
-                        data={chartData}
-                        dataKey="size"
-                        nameKey="name"
-                        aspectRatio={4/3}
-                        stroke="#fff"
-                        fill="#8884d8"
-                        animationDuration={450}
-                        content={({ root, depth, x, y, width, height, index, payload, colors, rank, name }) => {
-                          return (
-                            <g>
-                              <rect
-                                x={x}
-                                y={y}
-                                width={width}
-                                height={height}
-                                style={{
-                                  fill: COLORS[index % COLORS.length],
-                                  stroke: '#fff',
-                                  strokeWidth: 2,
-                                  strokeOpacity: 1 / (depth + 1),
-                                }}
-                              />
-                              {width > 50 && height > 30 && (
-                                <>
-                                  <text
-                                    x={x + width / 2}
-                                    y={y + height / 2 - 8}
-                                    textAnchor="middle"
-                                    fill="#fff"
-                                    fontSize={12}
-                                    style={{ fontWeight: 500 }}
-                                  >
-                                    {name}
-                                  </text>
-                                  <text
-                                    x={x + width / 2}
-                                    y={y + height / 2 + 8}
-                                    textAnchor="middle"
-                                    fill="#fff"
-                                    fontSize={10}
-                                  >
-                                    {formatBytes(payload.size)}
-                                  </text>
-                                </>
-                              )}
-                            </g>
-                          );
-                        }}
-                      >
-                        <Tooltip content={<CustomTooltip />} />
-                      </Treemap>
-                    </ResponsiveContainer>
-                  </div>
-                )}
+                
               </div>
             )}
           </div>
