@@ -310,7 +310,7 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
                       <BarChart
                         data={chartData}
                         layout="vertical"
-                        margin={{ top: 20, right: 30, left: 120, bottom: 10 }}
+                        margin={{ top: 20, right: 50, left: 180, bottom: 10 }}
                       >
                         <XAxis 
                           type="number" 
