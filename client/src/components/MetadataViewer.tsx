@@ -41,11 +41,10 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
         </div>
 
         {/* Analytics Charts */}
-        {(metadata.sizeBytes?.dataFiles || metadata.sizeBytes?.manifestFiles || metadata.sizeBytes?.otherFiles) && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">
-              <h3 className="text-sm font-medium mb-4 text-neutral-700">Storage Distribution</h3>
-              <div className="h-72">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
+            <h3 className="text-sm font-medium mb-4">Storage Distribution</h3>
+            <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -56,9 +55,8 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
                     ]}
                     cx="50%"
                     cy="50%"
-                    labelLine={true}
-                    outerRadius={100}
-                    innerRadius={60}
+                    labelLine={false}
+                    outerRadius={80}
                     fill="#8884d8"
                     dataKey="value"
                   >
@@ -73,9 +71,9 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">
-            <h3 className="text-sm font-medium mb-4 text-neutral-700">Version History</h3>
-            <div className="h-72">
+          <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
+            <h3 className="text-sm font-medium mb-4">Version History</h3>
+            <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={[
@@ -96,14 +94,11 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
           </div>
         </div>
         
-        <div>
-          <div className="mb-6">
-            {/* Schema Section */}
-            <SchemaViewer metadata={metadata} isPreview={true} />
-          </div>
-          
-          {/* Schema History Preview (if versions exist) */}
-          {metadata.versions && metadata.versions.length > 0 && (
+        {/* Schema Section */}
+        <SchemaViewer metadata={metadata} isPreview={true} />
+        
+        {/* Schema History Preview (if versions exist) */}
+        {metadata.versions && metadata.versions.length > 0 && (
           <div className="mb-6">
             <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
               <div className="flex justify-between items-center mb-3">

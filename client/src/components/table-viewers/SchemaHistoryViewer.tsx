@@ -18,45 +18,7 @@ interface SchemaHistoryViewerProps {
 
 export default function SchemaHistoryViewer({ metadata }: SchemaHistoryViewerProps) {
   const [activeTab, setActiveTab] = useState<string>('changes');
-  // Sample schema history data
-  const schemaHistory = [
-    {
-      version: 5,
-      timestamp: new Date().toISOString(),
-      schema: {
-        fields: [
-          { name: 'id', type: 'string', nullable: false, partitionKey: true },
-          { name: 'email', type: 'string', nullable: false, partitionKey: false },
-          { name: 'age', type: 'integer', nullable: true, partitionKey: false },
-          { name: 'status', type: 'string', nullable: true, partitionKey: false },
-          { name: 'created_at', type: 'timestamp', nullable: false, partitionKey: false }
-        ]
-      }
-    },
-    {
-      version: 4,
-      timestamp: new Date(Date.now() - 86400000).toISOString(),
-      schema: {
-        fields: [
-          { name: 'id', type: 'string', nullable: false, partitionKey: true },
-          { name: 'email', type: 'string', nullable: true, partitionKey: false },
-          { name: 'age', type: 'integer', nullable: true, partitionKey: false },
-          { name: 'created_at', type: 'timestamp', nullable: false, partitionKey: false }
-        ]
-      }
-    },
-    {
-      version: 3,
-      timestamp: new Date(Date.now() - 172800000).toISOString(),
-      schema: {
-        fields: [
-          { name: 'id', type: 'string', nullable: true, partitionKey: true },
-          { name: 'email', type: 'string', nullable: true, partitionKey: false },
-          { name: 'created_at', type: 'timestamp', nullable: false, partitionKey: false }
-        ]
-      }
-    }
-  ];
+  const schemaHistory = metadata.versions || [];
   
   // If no history, show empty state
   if (!schemaHistory.length) {
