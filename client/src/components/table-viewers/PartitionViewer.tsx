@@ -3,7 +3,7 @@ import { TableMetadata, TablePartition } from '@shared/schema';
 import { formatBytes, formatLargeNumber } from '@/lib/formatUtils';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
-  PieChart, Pie, Cell, Sector, Treemap
+  PieChart, Pie, Cell, Sector, Treemap, CartesianGrid
 } from 'recharts';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
