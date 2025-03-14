@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { TableMetadata } from '@shared/schema';
@@ -10,7 +9,7 @@ interface FilesViewerProps {
 
 export default function FilesViewer({ metadata }: FilesViewerProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   const fileAnalysis = {
     totalFiles: 19,
     totalRecords: 2240282,
@@ -59,27 +58,27 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
             <option>Sort by Name</option>
           </select>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="text-sm text-gray-600">Total Files</div>
-            <div className="text-2xl font-bold">{fileAnalysis.totalFiles}</div>
-            <div className="text-xs text-gray-500">Number of data files</div>
+            <div className="text-sm font-medium text-gray-600">Total Files</div>
+            <div className="text-2xl font-semibold">{fileAnalysis.totalFiles}</div>
+            <div className="text-xs font-normal text-gray-500">Number of data files</div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="text-sm text-gray-600">Total Records</div>
-            <div className="text-2xl font-bold">{fileAnalysis.totalRecords.toLocaleString()}</div>
-            <div className="text-xs text-gray-500">Across all files</div>
+            <div className="text-sm font-medium text-gray-600">Total Records</div>
+            <div className="text-2xl font-semibold">{fileAnalysis.totalRecords.toLocaleString()}</div>
+            <div className="text-xs font-normal text-gray-500">Across all files</div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="text-sm text-gray-600">Avg Records/File</div>
-            <div className="text-2xl font-bold">{fileAnalysis.avgRecordsPerFile.toLocaleString()}</div>
-            <div className="text-xs text-gray-500">Average records per file</div>
+            <div className="text-sm font-medium text-gray-600">Avg Records/File</div>
+            <div className="text-2xl font-semibold">{fileAnalysis.avgRecordsPerFile.toLocaleString()}</div>
+            <div className="text-xs font-normal text-gray-500">Average records per file</div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="text-sm text-gray-600">Avg File Size</div>
-            <div className="text-2xl font-bold">{fileAnalysis.avgFileSize}</div>
-            <div className="text-xs text-gray-500">Average size in MB</div>
+            <div className="text-sm font-medium text-gray-600">Avg File Size</div>
+            <div className="text-2xl font-semibold">{fileAnalysis.avgFileSize}</div>
+            <div className="text-xs font-normal text-gray-500">Average size in MB</div>
           </div>
         </div>
 
@@ -145,7 +144,7 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
               </ResponsiveContainer>
             </div>
           </div>
-          
+
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
             <h3 className="text-sm font-semibold mb-2">File Metrics Summary</h3>
             <div className="text-xs text-gray-500 mb-4">Min, max, and average values</div>
