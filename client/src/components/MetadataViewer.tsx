@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend, BarChart, Bar, XAxis, YAxis } from 'recharts';
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { formatBytes } from '@/lib/formatUtils';
 import { TableMetadata } from '@shared/schema';
 import TableFormatCard from './summary-cards/TableFormatCard';
@@ -27,7 +27,7 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
       </div>
     );
   }
-  
+
   // Overview tab with summary cards
   if (activeTab === 'overview') {
     return (
@@ -109,10 +109,10 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
             )}
           </div>
         </div>
-        
+
         {/* Schema Section */}
         <SchemaViewer metadata={metadata} isPreview={true} />
-        
+
         {/* Schema History Preview (if versions exist) */}
         {metadata.versions && metadata.versions.length > 0 && (
           <div className="mb-6">
@@ -132,7 +132,7 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
                   View Full History
                 </a>
               </div>
-              
+
               <div className="text-sm text-neutral-600">
                 <p>This table has {metadata.versions.length} recorded schema changes.</p>
                 <p className="mt-1">Last updated: {metadata.versions[0]?.timestamp 
@@ -145,48 +145,48 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
             </div>
           </div>
         )}
-        
+
         {/* Version History Preview */}
         <VersionViewer metadata={metadata} isPreview={true} />
-        
+
         {/* Partition Layout Preview */}
         <PartitionViewer metadata={metadata} isPreview={true} />
-        
+
         {/* Format Properties Preview */}
         <PropertiesViewer metadata={metadata} isPreview={true} />
       </>
     );
   }
-  
+
   // Schema tab
   if (activeTab === 'schema') {
     return <SchemaViewer metadata={metadata} />;
   }
-  
+
   // Schema History tab
   if (activeTab === 'schema-history') {
     return <SchemaHistoryViewer metadata={metadata} />;
   }
-  
+
   // Partitions tab
   if (activeTab === 'partitions') {
     return <PartitionViewer metadata={metadata} />;
   }
-  
+
   // Versions tab
   if (activeTab === 'versions') {
     return <VersionViewer metadata={metadata} />;
   }
-  
+
   // Properties tab
   if (activeTab === 'properties') {
     return <PropertiesViewer metadata={metadata} />;
   }
-  
+
   // Sample Data tab
   if (activeTab === 'sample-data') {
     return <SampleDataViewer metadata={metadata} />;
   }
-  
+
   return null;
 }
