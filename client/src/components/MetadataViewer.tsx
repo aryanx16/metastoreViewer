@@ -1,4 +1,6 @@
 import React from 'react';
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend, BarChart, Bar, XAxis, YAxis } from 'recharts';
+import { formatBytes } from '@/lib/formatUtils';
 import { TableMetadata } from '@shared/schema';
 import TableFormatCard from './summary-cards/TableFormatCard';
 import RowCountCard from './summary-cards/RowCountCard';
@@ -36,6 +38,57 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
           <RowCountCard metadata={metadata} />
           <StorageSizeCard metadata={metadata} />
           <VersionCard metadata={metadata} />
+        </div>
+
+        {/* Analytics Charts */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
+            <h3 className="text-sm font-medium mb-4">Storage Distribution</h3>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={[
+                      { name: 'Data Files', value: metadata.sizeBytes?.dataFiles || 0 },
+                      { name: 'Manifest Files', value: metadata.sizeBytes?.manifestFiles || 0 },
+                      { name: 'Other Files', value: metadata.sizeBytes?.otherFiles || 0 }
+                    ]}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {metadata.sizeBytes && Object.keys(metadata.sizeBytes).map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={['#3B82F6', '#10B981', '#F59E0B'][index]} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value: any) => formatBytes(value)} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
+            <h3 className="text-sm font-medium mb-4">Version History</h3>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={metadata.versions?.slice(0, 5).map((v, i) => ({
+                    version: `v${v.version}`,
+                    changes: v.operationMetrics?.numAddedFiles || 0
+                  })).reverse()}
+                >
+                  <XAxis dataKey="version" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="changes" fill="#3B82F6" name="File Changes" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
         </div>
         
         {/* Schema Section */}
