@@ -73,24 +73,40 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
 
           <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
             <h3 className="text-sm font-medium mb-4">Version History</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={[
-                    { version: 'v5', changes: 12 },
-                    { version: 'v4', changes: 8 },
-                    { version: 'v3', changes: 15 },
-                    { version: 'v2', changes: 6 },
-                    { version: 'v1', changes: 10 }
-                  ]}
-                >
-                  <XAxis dataKey="version" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="changes" fill="#3B82F6" name="File Changes" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+            {metadata.versions && metadata.versions.length > 0 && (
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={[
+                      { version: 'v5', changes: 12 },
+                      { version: 'v4', changes: 8 },
+                      { version: 'v3', changes: 15 },
+                      { version: 'v2', changes: 6 },
+                      { version: 'v1', changes: 10 }
+                    ]}
+                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="version" stroke="#64748b" />
+                    <YAxis stroke="#64748b" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        background: '#fff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '6px',
+                        padding: '8px'
+                      }}
+                    />
+                    <Bar 
+                      dataKey="changes" 
+                      fill="#3B82F6" 
+                      name="File Changes"
+                      radius={[4, 4, 0, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </div>
         </div>
         

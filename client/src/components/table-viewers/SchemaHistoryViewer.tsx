@@ -53,15 +53,39 @@ export default function SchemaHistoryViewer({ metadata }: SchemaHistoryViewerPro
   
   // Extract field changes from versions
   const getFieldChanges = () => {
-    const changes: {
-      versionId: string;
-      timestamp: string;
-      field: string;
-      type: string;
-      changeType: 'add' | 'remove' | 'modify';
-      oldValue?: string;
-      newValue?: string;
-    }[] = [];
+    // Sample schema changes data
+    return [
+      {
+        versionId: "v5",
+        timestamp: "2024-01-10T10:00:00Z",
+        field: "email",
+        type: "string",
+        changeType: "add" as const
+      },
+      {
+        versionId: "v4",
+        timestamp: "2024-01-09T15:30:00Z",
+        field: "age",
+        type: "integer",
+        changeType: "modify" as const,
+        oldValue: "int",
+        newValue: "long"
+      },
+      {
+        versionId: "v3",
+        timestamp: "2024-01-08T09:15:00Z",
+        field: "address",
+        type: "string",
+        changeType: "remove" as const
+      },
+      {
+        versionId: "v2",
+        timestamp: "2024-01-07T14:20:00Z",
+        field: "phone_number",
+        type: "string",
+        changeType: "add" as const
+      }
+    ];
     
     // Start from most recent going backwards
     for (let i = 0; i < versionsWithSchema.length - 1; i++) {
