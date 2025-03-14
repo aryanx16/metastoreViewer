@@ -96,8 +96,10 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
           </div>
         </div>
         
-        {/* Schema Section */}
-        <SchemaViewer metadata={metadata} isPreview={true} />
+        <div className="mb-6">
+          {/* Schema Section */}
+          <SchemaViewer metadata={metadata} isPreview={true} />
+        </div>
         
         {/* Schema History Preview (if versions exist) */}
         {metadata.versions && metadata.versions.length > 0 && (
