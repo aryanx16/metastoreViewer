@@ -296,13 +296,31 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
                       <BarChart
                         data={chartData}
                         layout="vertical"
-                        margin={{ top: 10, right: 30, left: 100, bottom: 10 }}
+                        margin={{ top: 20, right: 30, left: 100, bottom: 10 }}
                       >
-                        <XAxis type="number" tickFormatter={(value) => formatBytes(value)} />
-                        <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={100} />
+                        <XAxis 
+                          type="number" 
+                          tickFormatter={(value) => formatBytes(value)}
+                          stroke="#888"
+                          fontSize={12}
+                        />
+                        <YAxis 
+                          type="category" 
+                          dataKey="name" 
+                          tick={{ fontSize: 11 }} 
+                          width={100}
+                          stroke="#888"
+                        />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
                         <Tooltip content={<CustomTooltip />} />
                         <Legend />
-                        <Bar dataKey="size" name="Partition Size" fill="#0088FE" />
+                        <Bar 
+                          dataKey="size" 
+                          name="Partition Size" 
+                          fill="#60A5FA"
+                          radius={[0, 4, 4, 0]}
+                          barSize={20}
+                        />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -345,10 +363,50 @@ export default function PartitionViewer({ metadata, isPreview = false }: Partiti
                         aspectRatio={4/3}
                         stroke="#fff"
                         fill="#8884d8"
+                        animationDuration={450}
+                        content={({ root, depth, x, y, width, height, index, payload, colors, rank, name }) => {
+                          return (
+                            <g>
+                              <rect
+                                x={x}
+                                y={y}
+                                width={width}
+                                height={height}
+                                style={{
+                                  fill: COLORS[index % COLORS.length],
+                                  stroke: '#fff',
+                                  strokeWidth: 2,
+                                  strokeOpacity: 1 / (depth + 1),
+                                }}
+                              />
+                              {width > 50 && height > 30 && (
+                                <>
+                                  <text
+                                    x={x + width / 2}
+                                    y={y + height / 2 - 8}
+                                    textAnchor="middle"
+                                    fill="#fff"
+                                    fontSize={12}
+                                    style={{ fontWeight: 500 }}
+                                  >
+                                    {name}
+                                  </text>
+                                  <text
+                                    x={x + width / 2}
+                                    y={y + height / 2 + 8}
+                                    textAnchor="middle"
+                                    fill="#fff"
+                                    fontSize={10}
+                                  >
+                                    {formatBytes(payload.size)}
+                                  </text>
+                                </>
+                              )}
+                            </g>
+                          );
+                        }}
                       >
-                        {chartData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
+                        <Tooltip content={<CustomTooltip />} />
                       </Treemap>
                     </ResponsiveContainer>
                   </div>
