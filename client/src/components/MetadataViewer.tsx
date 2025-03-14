@@ -1,4 +1,5 @@
 import React from 'react';
+import FilesViewer from './table-viewers/FilesViewer';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { formatBytes } from '@/lib/formatUtils';
 import { TableMetadata } from '@shared/schema';
