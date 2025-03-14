@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
-import { TableMetadata } from '@shared/schema';
 import { Input } from '@/components/ui/input';
+import { TableMetadata } from '@shared/schema';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 
 interface FilesViewerProps {
   metadata: TableMetadata;
@@ -10,7 +11,6 @@ interface FilesViewerProps {
 export default function FilesViewer({ metadata }: FilesViewerProps) {
   const [searchTerm, setSearchTerm] = useState('');
   
-  // Mock data for demonstration
   const fileAnalysis = {
     totalFiles: 19,
     totalRecords: 2240282,
@@ -30,9 +30,16 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
         { range: "10K-50K", files: 60, percentage: 30 },
         { range: "50K-100K", files: 70, percentage: 35 },
         { range: "100K+", files: 40, percentage: 20 }
+      ],
+      fileTypes: [
+        { name: 'parquet', value: 30 },
+        { name: 'avro', value: 28 },
+        { name: 'orc', value: 42 }
       ]
     }
   };
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
   return (
     <div className="p-4">
@@ -79,16 +86,30 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-4 rounded-lg shadow">
             <h3 className="text-sm font-semibold mb-2">File Size Distribution</h3>
-            <div className="h-64 relative">
-              {/* Add chart visualization here */}
-              <div className="text-center text-sm text-gray-500 mt-2">Distribution of files by size ranges</div>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={fileAnalysis.distributions.fileSize}>
+                  <XAxis dataKey="range" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="files" fill="#0088FE" name="Number of Files" />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow">
             <h3 className="text-sm font-semibold mb-2">Record Count Distribution</h3>
-            <div className="h-64 relative">
-              {/* Add chart visualization here */}
-              <div className="text-center text-sm text-gray-500 mt-2">Distribution of files by record count ranges</div>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={fileAnalysis.distributions.recordCount}>
+                  <XAxis dataKey="range" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="files" fill="#00C49F" name="Number of Files" />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </div>
         </div>
@@ -96,28 +117,27 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
         <div className="mt-6 bg-white rounded-lg shadow">
           <h3 className="text-sm font-semibold p-4 border-b">File Type Distribution</h3>
           <div className="p-4">
-            {/* Add pie chart visualization here */}
-          </div>
-        </div>
-
-        <div className="mt-6 bg-white rounded-lg shadow">
-          <h3 className="text-sm font-semibold p-4 border-b">File Metrics Summary</h3>
-          <div className="p-4 grid grid-cols-2 gap-4">
-            <div>
-              <h4 className="text-sm font-medium mb-2">Record Count Range</h4>
-              <div className="text-sm">
-                <div>Min: 1</div>
-                <div>Max: 423,295</div>
-                <div>Avg: 117,910</div>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-medium mb-2">File Size Range</h4>
-              <div className="text-sm">
-                <div>Min: 0.007 MB</div>
-                <div>Max: 42.882 MB</div>
-                <div>Avg: 8.04 MB</div>
-              </div>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={fileAnalysis.distributions.fileTypes}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, value }) => `${name} (${value}%)`}
+                  >
+                    {fileAnalysis.distributions.fileTypes.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
           </div>
         </div>
