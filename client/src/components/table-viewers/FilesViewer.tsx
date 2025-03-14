@@ -134,7 +134,7 @@ export default function FilesViewer({ metadata }: FilesViewerProps) {
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={80}
+                  outerRadius={90}
                   label
                 >
                   {fileAnalysis.distributions.fileTypes.map((entry, index) => (
