@@ -41,10 +41,11 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
         </div>
 
         {/* Analytics Charts */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
-            <h3 className="text-sm font-medium mb-4">Storage Distribution</h3>
-            <div className="h-64">
+        {(metadata.sizeBytes?.dataFiles || metadata.sizeBytes?.manifestFiles || metadata.sizeBytes?.otherFiles) && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">
+              <h3 className="text-sm font-medium mb-4 text-neutral-700">Storage Distribution</h3>
+              <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -55,8 +56,9 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
                     ]}
                     cx="50%"
                     cy="50%"
-                    labelLine={false}
-                    outerRadius={80}
+                    labelLine={true}
+                    outerRadius={100}
+                    innerRadius={60}
                     fill="#8884d8"
                     dataKey="value"
                   >
@@ -71,9 +73,9 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
-            <h3 className="text-sm font-medium mb-4">Version History</h3>
-            <div className="h-64">
+          <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">
+            <h3 className="text-sm font-medium mb-4 text-neutral-700">Version History</h3>
+            <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={[
