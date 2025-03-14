@@ -11,7 +11,7 @@ export default function TabNavigation({ activeTab, onChange }: TabNavigationProp
     { id: 'schema', label: 'Schema' },
     { id: 'schema-history', label: 'Schema History' },
     { id: 'partitions', label: 'Partitions' },
-    { id: 'versions', label: 'Versions' },
+    { id: 'files', label: 'Files' },
     { id: 'properties', label: 'Properties' },
     { id: 'sample-data', label: 'Sample Data' }
   ];

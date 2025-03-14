@@ -183,6 +183,11 @@ export default function MetadataViewer({ metadata, activeTab, isLoading }: Metad
     return <PropertiesViewer metadata={metadata} />;
   }
 
+  // Files tab
+  if (activeTab === 'files') {
+    return <FilesViewer metadata={metadata} />;
+  }
+
   // Sample Data tab
   if (activeTab === 'sample-data') {
     return <SampleDataViewer metadata={metadata} />;
